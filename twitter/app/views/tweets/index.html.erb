@@ -14,17 +14,19 @@
   </thead>
 
   <tbody>
-    <% @tweets.each do |tweet| %>
-      <tr>
-        <td><%= tweet.username %></td>
+ 
+
+     <% @tweets.each do |tweet| %>
+      <tr >
+	<td><%= tweet.username %></td>
         <td><%= tweet.text %></td>
-        <td><%= tweet.status %></td>
-        <td><%= tweet.approvedby %></td>
-        <td><%= link_to 'Show', tweet %></td>
-        <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
+        <td><span id="<%= tweet.id %>"><%= tweet.status %></span></td>
+        <td><%= link_to 'Active', tweet_set_stat_path(tweet,:active),remote: true,id: :active %></td>
+        <td><%= link_to 'Inactive', tweet_set_stat_path(tweet,:inactive),remote: true,id: :inactive %></td>
         <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+    
   </tbody>
 </table>
 
