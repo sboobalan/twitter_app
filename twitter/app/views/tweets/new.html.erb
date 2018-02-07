@@ -1,0 +1,16 @@
+<%= stylesheet_link_tag "indexn.css" %>
+<%= link_to "Logout", indexn_path, class: 'rite' %><%= link_to "Dashboard| ", indexn_path,class: 'rite'  %><%= link_to @uname+'| ', new_tweet_path,class: 'rite'   %>
+<h1>Home</h1>
+<div id="nw">
+
+<%= render 'form', tweet: @tweet %>
+
+<% @twts.each do |tweet| %>
+      <div id="tw">
+       <span id="un"><%= tweet.username %></span><br>
+       <%= tweet.text %>
+        </div>       
+    <br>
+    <% end %>
+</div>
+
