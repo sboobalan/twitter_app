@@ -1,12 +1,18 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
-
+  before_action :twt, only: [:create, :new, :indexn]
   # GET /tweets
   # GET /tweets.json
   def index
     @tweets = Tweet.all
   end
-
+  def indexn
+	@tweets = Tweet.all
+	session[:username]="Alex"
+	@uname = session[:username]
+	puts @uname
+	#render :indexn
+  end
   # GET /tweets/1
   # GET /tweets/1.json
   def show
@@ -15,6 +21,9 @@ class TweetsController < ApplicationController
   # GET /tweets/new
   def new
     @tweet = Tweet.new
+    session[:username]="Alex"
+    @uname = session[:username]
+    @twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
   end
 
   # GET /tweets/1/edit
@@ -25,11 +34,14 @@ class TweetsController < ApplicationController
   # POST /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
-
+    @tweet.status="pending"
+    @uname = session[:username]
+    @tweet.username=session[:username]
+    @tweets = Tweet.all
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }
-        format.json { render :show, status: :created, location: @tweet }
+        format.html { render :indexn, notice: 'Tweet was successfully created.' }
+        format.json { render :indexn, status: :created, location: @tweet }
       else
         format.html { render :new }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
@@ -70,5 +82,9 @@ class TweetsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
       params.require(:tweet).permit(:username, :text, :status, :approvedby)
+    end
+    def twt
+	@uname = session[:username]
+	@twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
     end
 end
