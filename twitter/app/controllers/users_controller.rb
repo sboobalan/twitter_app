@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    
   end
 
   # GET /users/1
@@ -28,6 +29,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+	
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -58,6 +60,34 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def login
+    if( User.find_by username: params[:uname])
+    @newuser = User.find_by username: params[:uname] 
+    
+    puts @newuser[:username]
+    puts "aaaa"
+    puts @newuser[:password]
+    puts params[:password]
+        if(@newuser[:password] .eql? params[:password])
+	
+	respond_to do |format|
+	  format.html { redirect_to @newuser, notice: 'LoggedIn Successfully' }
+          format.json { render :show, status: :created, location: @newuser }
+	end
+	else
+	respond_to do |format|
+	  format.html {redirect_to users_url, notice: 'Invalid password'}
+	end
+	end
+    #if(@newuser==null)
+	
+    else
+      respond_to do |format|
+      format.html {redirect_to users_url, notice: 'Invalid username'}
+      end    
     end
   end
 
