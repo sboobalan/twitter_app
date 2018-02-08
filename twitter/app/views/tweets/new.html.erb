@@ -1,5 +1,7 @@
 <%= stylesheet_link_tag "indexn.css" %>
-<%= link_to "Logout", users_path, class: 'rite' %><%= link_to "Dashboard| ", tweet_indexn_path(@usr),class: 'rite'  %><%= link_to @uname+'| ', new_tweet_path,class: 'rite'   %>
+
+<%= link_to "Logout", users_path, class: 'rite' %><%= link_to @uname+"| ", tweet_indexn_path(@usr),class: 'rite'  %><%= link_to 'Dashboard| ', new_tweet_path,class: 'rite'   %><% if @type .eql? "moderator"%> <%= link_to 'View Tweets|', mod_front_path,class: 'rite'%><%= link_to 'Update Tweets|', tweets_path,class: 'rite'%><% end %>
+
 <h1>Home</h1>
 <div id="nw">
 
@@ -17,63 +19,64 @@
 <script language="javascript">
 $(document).ready(function(){
 $('.dt').each(function(idx,el){
-$v=$(el).text();
-
-$y="";
-$m="";
-$f="";
-$a=$v.split(" ");
-$d2=$a[0].split("-");
-$d = String(new Date());
-console.log($d);
-$d1=$d.split(" ");
-switch(parseInt($d2[1]))
-{
-case 1:$m="Jan";break;
-case 2:$m="Feb";break;
-case 3:$m="Mar";break;
-case 4:$m="Apr";break;
-case 5:$m="May";break;
-case 6:$m="Jun";break;
-case 7:$m="Jul";break;
-case 8:$m="Aug";break;
-case 9:$m="Sept";break;
-case 10:$m="Oct";break;
-case 11:$m="Nov";break;
-case 12:$m="Dec";break;
-}
-if($d1[3]==$d2[0])
-{
-$y="";
-}
-else
-{
-$y=$d2[0];
-}
-if((parseInt($d1[2])-parseInt($d2[2]))==0)
-{
-	$t1=$a[1].split(":");
-	$t2=$d1[4].split(":");
-	console.log($t1+" "+$t2);
-	if((parseInt($t2[0])-parseInt($t1[0]))==0)
+	$v=$(el).text();
+	console.log(el,$v)
+	$y="";
+	$m="";
+	$f="";
+	$a=$v.split(" ");
+	$d2=$a[0].split("-");
+	$d = String(new Date());
+	console.log($d);
+	$d1=$d.split(" ");
+	switch(parseInt($d2[1]))
 	{
-	$f=String(parseInt($t2[1])-parseInt($t1[1]))+" min";
+	case 1:$m="Jan";break;
+	case 2:$m="Feb";break;
+	case 3:$m="Mar";break;
+	case 4:$m="Apr";break;
+	case 5:$m="May";break;
+	case 6:$m="Jun";break;
+	case 7:$m="Jul";break;
+	case 8:$m="Aug";break;
+	case 9:$m="Sept";break;
+	case 10:$m="Oct";break;
+	case 11:$m="Nov";break;
+	case 12:$m="Dec";break;
+	}
+	if($d1[3]==$d2[0])
+	{
+	$y="";
 	}
 	else
 	{
-	$f=String(parseInt($t2[0])-parseInt($t1[0]))+" hr";
+	$y=$d2[0];
 	}
-}
-else if((parseInt($d1[2])-parseInt($d2[2]))==1)
-{
-	$f="1d";
-}
-else
-{
-	$f=$m+" "+$d2[2]+" "+$y;
-}
-console.log($f);
+	if((parseInt($d1[2])-parseInt($d2[2]))==0)
+	{
+		$t1=$a[1].split(":");
+		$t2=$d1[4].split(":");
+		console.log($t1+" "+$t2);
+		if((parseInt($t2[0])-parseInt($t1[0]))==0)
+		{
+		$f=String(parseInt($t2[1])-parseInt($t1[1]))+" min";
+		}
+		else
+		{
+		$f=String(parseInt($t2[0])-parseInt($t1[0]))+" hr";
+		}
+	}
+	else if((parseInt($d1[2])-parseInt($d2[2]))==1)
+	{
+		$f="1d";
+	}
+	else
+	{
+		$f=$m+" "+$d2[2]+" "+$y;
+	}
+	console.log($f);
 
-});
+	$(el).text($f);
+	});
 });
 </script>

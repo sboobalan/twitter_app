@@ -1,10 +1,10 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
-  before_action :twt, only: [:create, :new, :indexn]
+  before_action :twt, only: [:create, :new, :indexn,:index,:mod_front]
 
   def index
     @tweets = Tweet.all
-    
+    puts session[:username],"ddddddddddddddddddddd"
   end
 
   def set_stat
@@ -16,9 +16,12 @@ class TweetsController < ApplicationController
   end
 
   def indexn
-
-	@tweets = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
+     	puts params
+	user=Tweet.find(params[:tweet_id])
+	@tweets = Tweet.all.where("username= ? AND status='active'",user[:username]).order(created_at: :desc, updated_at: :desc)
 	@uname = session[:username]
+
+	puts "aaaaaaaaaaaaaaaaaaaaaaa" +  @uname
 
   end
 
@@ -30,8 +33,10 @@ class TweetsController < ApplicationController
   # GET /tweets/new
   def new
     @tweet = Tweet.new
-    @uname = session[:username]
+    
+
     @twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
+
 
   end
 
@@ -63,7 +68,7 @@ class TweetsController < ApplicationController
   def update
     respond_to do |format|
       if @tweet.update(tweet_params)
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully updated.' }
+        format.html { redirect_to tweet_indexn_url(@tweet), notice: 'Tweet was successfully updated.' }
         format.json { render :show, status: :ok, location: @tweet }
       else
         format.html { render :edit }
@@ -99,6 +104,8 @@ class TweetsController < ApplicationController
     def twt
 	@uname = session[:username]
 	@twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
-	@usr=User.all.where("username= ? ",@uname)
+	@usr=Tweet.all.where("username= ? ",@uname)[0]
+	@type=(User.find_by username: @uname)[:designation]
+	puts @type,"ssssssssssssssssssssssssssssss",@usr
     end
 end

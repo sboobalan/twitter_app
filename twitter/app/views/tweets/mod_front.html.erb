@@ -1,5 +1,5 @@
 <h1>Tweets</h1>
-<p><%= link_to 'Logout', users_path%></p>
+<%= link_to "Logout", users_path, class: 'rite' %><%= link_to @uname+"| ", tweet_indexn_path(@usr),class: 'rite'  %><%= link_to 'Dashboard| ', new_tweet_path,class: 'rite'   %><% if @type .eql? "moderator"%> <%= link_to 'View Tweets|', mod_front_path,class: 'rite'%><%= link_to 'Update Tweets|', tweets_path,class: 'rite'%><% end %>
 
 <table id="display_table">
   <thead>
@@ -20,7 +20,8 @@
 
      <% @tweets.each do |tweet| %>
       <tr id="<%= tweet.id%>">
-	<td><%= link_to tweet.username, tweet_indexn_path(User.find_by username: tweet.username) %></td>
+	
+	<td><%= link_to tweet.username, tweet_indexn_path(tweet) %></td>
         <td><%= tweet.text %></td>
         <td><%= tweet.status %></span></td>
               
