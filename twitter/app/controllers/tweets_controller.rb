@@ -15,7 +15,7 @@ class TweetsController < ApplicationController
   end
   def indexn
 	@tweets = Tweet.all
-	session[:username]="Alex"
+	
 	@uname = session[:username]
 	puts @uname
 	#render :indexn
@@ -28,7 +28,7 @@ class TweetsController < ApplicationController
   # GET /tweets/new
   def new
     @tweet = Tweet.new
-    session[:username]="Alex"
+    
     @uname = session[:username]
     @twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
   end
