@@ -1,47 +1,57 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
   before_action :twt, only: [:create, :new, :indexn]
-  # GET /tweets
-  # GET /tweets.json
+
   def index
     @tweets = Tweet.all
+    
   end
+
+  def set_stat
+        @tweet = Tweet.find(params[:tweet_id])
+        @tweet.update_attributes(:status => params["format"])
+        @tweet.update_attributes(:approvedby => session[:username])
+	@query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
+	render js: @query
+  end
+
   def indexn
-	@tweets = Tweet.all
-	
+
+	@tweets = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
 	@uname = session[:username]
-	puts @uname
-	#render :indexn
+
   end
-  # GET /tweets/1
-  # GET /tweets/1.json
+
+  def moderator
+  end
   def show
   end
 
   # GET /tweets/new
   def new
     @tweet = Tweet.new
-    
     @uname = session[:username]
-puts @uname
-    @twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
+
+    @twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
+
+
   end
 
   # GET /tweets/1/edit
   def edit
   end
 
-  # POST /tweets
+    # POST /tweets
   # POST /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
-    @tweet.status="pending"
-    @uname = session[:username]
-    @tweet.username=session[:username]
+    @tweet.status="inactive"
+    
+    @tweet.username=@uname
     @tweets = Tweet.all
     respond_to do |format|
       if @tweet.save
-        format.html { render :indexn, notice: 'Tweet was successfully created.' }
+        format.html { redirect_to @tweet, notice: 'Tweet is submitted for approval.' }
         format.json { render :indexn, status: :created, location: @tweet }
       else
         format.html { render :new }
@@ -74,6 +84,10 @@ puts @uname
     end
   end
 
+  def mod_front
+	@tweets = Tweet.all
+	render :mod_front
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
@@ -86,6 +100,7 @@ puts @uname
     end
     def twt
 	@uname = session[:username]
-	@twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
+	@twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
+	@usr=User.all.where("username= ? ",@uname)
     end
 end
