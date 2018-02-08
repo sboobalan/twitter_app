@@ -87,12 +87,13 @@ class UsersController < ApplicationController
   def login
     if( User.find_by username: params[:uname])
     @newuser = User.find_by username: params[:uname] 
-    
+    puts @newuser,"aaaaaaaaaaaaaaa"
     
         if(@newuser[:password] .eql? params[:password])
 	
 	respond_to do |format|
 		if(@newuser[:designation]) .eql? "moderator"
+		session[:username] = params[:uname]
 	  	puts @newuser[:designation]
           	format.html { redirect_to moderator_url}
         	else
