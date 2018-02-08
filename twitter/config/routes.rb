@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :users 
   resources :tweets
   post 'users/login'
+  get "/check_user" => "users#check_user"
+  get "/checkmail_user" => "users#checkmail_user"
 
 
 end
