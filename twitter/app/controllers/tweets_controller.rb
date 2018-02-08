@@ -8,32 +8,11 @@ class TweetsController < ApplicationController
   end
 
   def set_stat
-    @tweet = Tweet.find(params[:tweet_id])
-    puts params[:format]
-	@tweet.update_attributes(:status => params["format"],:approvedby => session[:username])
+        @tweet = Tweet.find(params[:tweet_id])
+        @tweet.update_attributes(:status => params["format"],:approvedby => session[:username])
 	@query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
 	render js: @query
-#"$(\"##{params[:tweet_id]}\").text(\"active\")"
-#"document.findElementById(\"#{params[:tweet_id]}\").innerHTML(\"#{params[:format]}\")"
-		#format.js {render js: "alert('hello')"}
-	#"document.findElementById(#{params[:tweet_id]}).innerHTML(#{params[:format]})"}
-	
-    
   end
-	
-	#puts "fun called"
-	#puts params[:update_stat]
-	#if params[:update_stat] .eql? "inactive"
-	#	@tweet.update_attributes(:status => "inactive")
-#		@message= "Inactive"
-#	else
-#		@tweet.update_attributes(:status => "active")
-#	 	@message ="Active"
-#	end
-#	respond_to do |format|
-#		format.js
-#	end
-#  end
   def indexn
 	@tweets = Tweet.all
 	session[:username]="Alex"
