@@ -6,6 +6,13 @@ class TweetsController < ApplicationController
   def index
     @tweets = Tweet.all
   end
+
+  def set_stat
+        @tweet = Tweet.find(params[:tweet_id])
+        @tweet.update_attributes(:status => params["format"],:approvedby => session[:username])
+	@query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
+	render js: @query
+  end
   def indexn
 
 	@tweets = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
@@ -32,7 +39,7 @@ class TweetsController < ApplicationController
   def edit
   end
 
-  # POST /tweets
+    # POST /tweets
   # POST /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
