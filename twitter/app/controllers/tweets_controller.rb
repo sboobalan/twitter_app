@@ -7,10 +7,11 @@ class TweetsController < ApplicationController
     @tweets = Tweet.all
   end
   def indexn
-	@tweets = Tweet.all
+	@tweets = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
 	session[:username]="Alex"
-	@uname = session[:username]
+	
 	puts @uname
+	
 	#render :indexn
   end
   # GET /tweets/1
@@ -22,7 +23,7 @@ class TweetsController < ApplicationController
   def new
     @tweet = Tweet.new
     session[:username]="Alex"
-    @uname = session[:username]
+    
     @twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
   end
 
@@ -34,9 +35,9 @@ class TweetsController < ApplicationController
   # POST /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
-    @tweet.status="pending"
-    @uname = session[:username]
-    @tweet.username=session[:username]
+    @tweet.status="inactive"
+    
+    @tweet.username=@uname
     @tweets = Tweet.all
     respond_to do |format|
       if @tweet.save
