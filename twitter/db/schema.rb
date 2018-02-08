@@ -26,9 +26,11 @@ ActiveRecord::Schema.define(version: 20180206081530) do
     t.string "username"
     t.string "password"
     t.string "email"
-    t.string "designation"
+    t.string "designation", default: "user"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "email", unique: true
+    t.index ["username"], name: "username", unique: true
   end
 
 end
