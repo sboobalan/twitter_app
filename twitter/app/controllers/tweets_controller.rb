@@ -20,6 +20,8 @@ class TweetsController < ApplicationController
 	@tweets = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
 	@uname = session[:username]
 
+	puts @uname
+
   end
 
   def moderator
