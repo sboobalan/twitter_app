@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    
   end
 
   # GET /users/1
@@ -24,10 +25,25 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    
+    if( User.find_by username: params["user"]["username"])
+	respond_to do |format|
+	  format.html {redirect_to new_user_url, notice: 'Username already exists'}
+	end
+    elsif(!(params["user"]["password"] .eql? params["user"]["confirm_password"]))
+	respond_to do |format|
+	  format.html {redirect_to new_user_url, notice: 'Passwords doesnot match'}
+	end
+    elsif(User.find_by email: params["user"]["email"])
+	respond_to do |format|
+	  format.html {redirect_to new_user_url, notice: 'Email Id already exists'}
+	end
+    else
     @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
+	session[:username] = params[:uname]
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -35,6 +51,7 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+   end
   end
 
   # PATCH/PUT /users/1
@@ -60,6 +77,42 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def login
+    if( User.find_by username: params[:uname])
+    @newuser = User.find_by username: params[:uname] 
+    
+    
+        if(@newuser[:password] .eql? params[:password])
+	
+	respond_to do |format|
+	  format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
+	  session[:username] = params[:uname]
+          #format.json { render :show, status: :created, location: @newuser }
+	end
+	else
+	respond_to do |format|
+	  format.html {redirect_to users_url, notice: 'Invalid password'}
+	end
+	end
+    #if(@newuser==null)
+	
+    else
+      respond_to do |format|
+      format.html {redirect_to users_url, notice: 'Invalid username'}
+      end    
+    end
+  end
+
+def check_user
+  user = params[:fieldValue]
+  user = User.where("username = ?", username).first
+  if user.present?
+    render :json =>  ["username", false , "This User is already taken"]
+  else
+    render :json =>  ["username", true , ""]
+  end
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.

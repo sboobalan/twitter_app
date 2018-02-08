@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
 get "/indexn" => "tweets#indexn"  
 get "/mod_front" => "tweets#mod_front"
 resources :tweets do
@@ -6,6 +7,11 @@ resources :tweets do
 end
 get "/moderator" => 'tweets#moderator'
   resources :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  
+=======
+
+  #resources :users
+
+  post 'users/login'
+
+
 end
