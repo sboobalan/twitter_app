@@ -12,6 +12,8 @@ end
   #resources :users
 
   post 'users/login'
+  get "/check_user" => "users#check_user"
+  get "/checkmail_user" => "users#checkmail_user"
 
 
 end
