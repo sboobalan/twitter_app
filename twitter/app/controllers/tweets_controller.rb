@@ -23,6 +23,7 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
     
     @uname = session[:username]
+puts @uname
     @twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
   end
 
