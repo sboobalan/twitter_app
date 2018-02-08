@@ -1,27 +1,30 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
   before_action :twt, only: [:create, :new, :indexn]
-  # GET /tweets
-  # GET /tweets.json
+
   def index
     @tweets = Tweet.all
+    
   end
 
   def set_stat
         @tweet = Tweet.find(params[:tweet_id])
-        @tweet.update_attributes(:status => params["format"],:approvedby => session[:username])
+        @tweet.update_attributes(:status => params["format"])
+        @tweet.update_attributes(:approvedby => session[:username])
 	@query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
 	render js: @query
   end
+
   def indexn
 	@tweets = Tweet.all
 	session[:username]="Alex"
 	@uname = session[:username]
 	puts @uname
-	#render :indexn
+
   end
-  # GET /tweets/1
-  # GET /tweets/1.json
+
+  def moderator
+  end
   def show
   end
 
@@ -80,6 +83,10 @@ class TweetsController < ApplicationController
     end
   end
 
+  def mod_front
+	@tweets = Tweet.all
+	render :mod_front
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
