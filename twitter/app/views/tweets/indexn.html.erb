@@ -20,7 +20,7 @@
 $(document).ready(function(){
 $('.dt').each(function(idx,el){
 $v=$(el).text();
-console.log($(el).text());
+
 $y="";
 $m="";
 $f="";
@@ -72,7 +72,7 @@ else
 {
 	$f=$m+" "+$d2[2]+" "+$y;
 }
-console.log($f);
+
 $(el).text($f);
 });
 });
