@@ -49,7 +49,7 @@ class TweetsController < ApplicationController
     @tweets = Tweet.all
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: 'Tweet is submitted for approval.' }
+        format.html { redirect_to tweet_indexn_url(@tweet), notice: 'Tweet is submitted for approval.' }
         format.json { render :indexn, status: :created, location: @tweet }
       else
         format.html { render :new }
