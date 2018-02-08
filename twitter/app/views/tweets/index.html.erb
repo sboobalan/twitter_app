@@ -18,7 +18,8 @@
 
      <% @tweets.each do |tweet| %>
       <tr >
-	<td><%= link_to tweet.username, tweet_indexn_path(User.find_by username: tweet.username) %></td>
+	<% @usr = User.where(username: tweet.username) %>
+	<td><%= link_to tweet.username, tweet_indexn_path(@usr) %></td>
         <td><%= tweet.text %></td>
         <td><span id="<%= tweet.id %>"><%= tweet.status %></span></td>
         <td><%= link_to 'Active', tweet_set_stat_path(tweet,:active),remote: true,id: :active %>
