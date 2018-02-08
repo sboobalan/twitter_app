@@ -47,9 +47,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-	session[:username] = params[:uname]
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+	session[:username] = params["user"]["username"]
+	puts "aaaaaaaaaaaaaaaaaaaaaa"
+	puts session[:username]
+        format.html { redirect_to new_tweet_url, notice: 'User was successfully created.' }
+        #format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -90,15 +92,18 @@ class UsersController < ApplicationController
         if(@newuser[:password] .eql? params[:password])
 	
 	respond_to do |format|
-	#if(@newuser[:designation]) .eql? "moderator"
-	  puts @newuser[:designation]
-	  format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
-	  session[:username] = params[:uname]
-          #format.json { render :show, status: :created, location: @newuser }
-	end
+		if(@newuser[:designation]) .eql? "moderator"
+	  	puts @newuser[:designation]
+          	format.html { redirect_to moderator_url}
+        	else
+	  	format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
+	  	session[:username] = params[:uname]
+          	#format.json { render :show, status: :created, location: @newuser }
+		end
+             end
 	else
 	respond_to do |format|
-	  format.html {redirect_to users_url, notice: 'Invalid password'}
+	format.html {redirect_to users_url, notice: 'Invalid password'}
 	end
 	end
     #if(@newuser==null)
@@ -106,7 +111,7 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
       format.html {redirect_to users_url, notice: 'Invalid username'}
-      end    
+    end    
     end
   end
 
