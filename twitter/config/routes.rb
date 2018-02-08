@@ -1,15 +1,19 @@
 Rails.application.routes.draw do
 
-get "/indexn" => "tweets#indexn"  
+
 
 resources :tweets do
   get 'set_stat' => 'tweets#set_stat'
+  get "indexn"
 end
 
   resources :users
 =======
 
   #resources :users
+
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+   
 
   post 'users/login'
   get "/check_user" => "users#check_user"

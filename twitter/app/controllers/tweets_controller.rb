@@ -14,10 +14,12 @@ class TweetsController < ApplicationController
 	render js: @query
   end
   def indexn
-	@tweets = Tweet.all
-	
+
+	@tweets = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
 	@uname = session[:username]
-	puts @uname
+
+	#puts @uname
+	
 	#render :indexn
   end
   # GET /tweets/1
@@ -28,9 +30,9 @@ class TweetsController < ApplicationController
   # GET /tweets/new
   def new
     @tweet = Tweet.new
-    
     @uname = session[:username]
-    @twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
+    @twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
+
   end
 
   # GET /tweets/1/edit
@@ -41,13 +43,13 @@ class TweetsController < ApplicationController
   # POST /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
-    @tweet.status="pending"
-    @uname = session[:username]
-    @tweet.username=session[:username]
+    @tweet.status="inactive"
+    
+    @tweet.username=@uname
     @tweets = Tweet.all
     respond_to do |format|
       if @tweet.save
-        format.html { render :indexn, notice: 'Tweet was successfully created.' }
+        format.html { redirect_to @tweet, notice: 'Tweet is submitted for approval.' }
         format.json { render :indexn, status: :created, location: @tweet }
       else
         format.html { render :new }
@@ -93,5 +95,6 @@ class TweetsController < ApplicationController
     def twt
 	@uname = session[:username]
 	@twts = Tweet.all.where("username= ? AND status='active'",@uname).order(created_at: :desc, updated_at: :desc)
+	@usr=User.all.where("username= ? ",@uname)
     end
 end
