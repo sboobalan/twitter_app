@@ -22,7 +22,18 @@ class UsersController < ApplicationController
   def edit
   end
   def admin
-  
+  d = DateTime.now
+  d.strftime("%d/%m/%Y %H:%M")
+  d=d.to_s
+  z=d.split("T")[0].split("-")
+  puts "aaaaaaaaaaaaaaaaaaaa"
+  u=Users.all
+  puts u
+  us=[]
+  u.each do |usrs|
+	dt=usrs.created_at.split(" ")[0].split("-")
+	puts dt
+  end
   end
   # POST /users
   # POST /users.json

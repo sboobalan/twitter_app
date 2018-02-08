@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tweets</h1>
+<p><%= link_to 'Logout', users_path%></p>
+
+<h3>Number of tweets today</h3>
+<%= @todnum %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Designation</th>
+      <th colspan="4">Update Designation</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+ 
+
+     <% @users.each do |usr| %>
+      <tr >
+	<td><%= usr.name %></td>
+	<td><%= link_to usr.username, tweet_indexn_path(user) %></td>
+        <td><span id="<%= usr.id %>"><%= usr.designation %></span></td>
+        <td><%= link_to 'Moderator', tweet_set_stat_path(tweet,:mod),remote: true,id: :mod %>
+        &nbsp; &nbsp;<%= link_to 'User', tweet_set_stat_path(tweet,:user),remote: true,id: :user %></td>
+        
+      </tr>
+    <% end %>
+    
+  </tbody>
+</table>
+
+<br>
+
