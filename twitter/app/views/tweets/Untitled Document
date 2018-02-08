@@ -1,0 +1,36 @@
+<h1>Tweets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Text</th>
+      <th>Status</th>
+      <th colspan="3">Filter tweets <br><select id="filter_opt">
+		 	    <option value="all">All Tweets</option>     	
+			    <option value="active">Active Tweets</option>     
+			    <option value="inactive">Inactive Tweets</option>
+			 </select></th>
+    </tr>
+  </thead>
+
+  <tbody>
+ 
+
+     <% @tweets.each do |tweet| %>
+      <tr >
+	<td><%= tweet.username %></td>
+        <td><%= tweet.text %></td>
+        <td><span id="<%= tweet.id %>"><%= tweet.status %></span></td>
+        <td><%= link_to 'Active', tweet_set_stat_path(tweet,:active),remote: true,id: :active %>
+        <%= link_to 'Inactive', tweet_set_stat_path(tweet,:inactive),remote: true,id: :inactive %></td>
+        
+      </tr>
+    <% end %>
+    
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tweet', new_tweet_path %>

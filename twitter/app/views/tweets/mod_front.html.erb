@@ -1,0 +1,60 @@
+<h1>Tweets</h1>
+<p><%= link_to 'Logout', users_path%></p>
+
+<table id="display_table">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Text</th>
+      <th>Status</th>
+      <th colspan="3">Filter tweets <br><select id="filter_opt" onchange="filter()">
+		 	    <option value="all" selected="true">All Tweets</option>     	
+			    <option value="active">Active Tweets</option>     
+			    <option value="inactive">Inactive Tweets</option>
+			 </select></th>
+    </tr>
+  </thead>
+
+  <tbody>
+ 
+
+     <% @tweets.each do |tweet| %>
+      <tr id="<%= tweet.id%>">
+	<td><%= link_to tweet.username, tweet_indexn_path(User.find_by username: tweet.username) %></td>
+        <td><%= tweet.text %></td>
+        <td><%= tweet.status %></span></td>
+              
+      </tr>
+    <% end %>
+    
+  </tbody>
+</table>
+
+<br>
+<script>
+function filter(){
+    console.log("check");
+    var filter = $("#filter_opt").val(); 
+    table = document.getElementById("display_table");
+    tr = table.getElementsByTagName("tr");
+    if(filter =="all")
+    {
+	for(i=0;i<tr.length;i++)
+		tr[i].style.display=""
+	return;
+    }	
+   for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    if (td) {
+      if (td.innerHTML==filter) {
+        tr[i].style.display = "";
+	console.log(td.innerHTML)
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+    }
+</script>
+
+
