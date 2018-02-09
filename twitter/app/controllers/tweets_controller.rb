@@ -17,8 +17,14 @@ class TweetsController < ApplicationController
 
   def indexn
      	puts params
+	
+	if !params[:tweet_id].nil?
+	puts params[:tweet_id],"aaaaaaaaaaaaaa"
 	user=Tweet.find(params[:tweet_id])
 	@tweets = Tweet.all.where("username= ? AND status='active'",user[:username]).order(created_at: :desc, updated_at: :desc)
+	else
+	@tweets=nil
+	end
 	@uname = session[:username]
 
 	puts "aaaaaaaaaaaaaaaaaaaaaaa" +  @uname
@@ -133,7 +139,7 @@ class TweetsController < ApplicationController
     def twt
 	@uname = session[:username]
 	@twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
-	@usr=Tweet.all.where("username= ? ",@uname)[0]
+	@usr=Tweet.all.where("username= ? ",@uname)[0][:id]
 	@usr1 = Tweet.all.where("username= ? ",@uname)
 	@type=(User.find_by username: @uname)[:designation]
 	puts @type,"ssssssssssssssssssssssssssssss",@usr,@uname
