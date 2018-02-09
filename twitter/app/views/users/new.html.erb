@@ -1,6 +1,8 @@
 <p id="notice"><%= notice %></p>
-<h1>New User</h1>
-
+<div id="bgimage">
+<p>Welcome to Infi_Twitter.<br>Ready to Join?</p>
+<div id="reg">
 <%= render 'form', user: @user %>
-<p>
-<%= link_to 'Back', users_path %>
+</div>
+<%= link_to 'Already a member?', users_path , :id => "back"%>
+</div>
