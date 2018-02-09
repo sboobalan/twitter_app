@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [ :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -7,6 +7,17 @@ class UsersController < ApplicationController
     @users = User.all
     
   end
+
+  def type_change
+	@users = User.all
+  end
+  def status_set
+        @user = User.find(params[:user_id])
+        @user.update_attributes(:designation => params["format"])
+	@query = "$(\"##{params[:user_id]}\").text(\"#{params[:format]}\")"
+	render js: @query
+  end
+
 
   # GET /users/1
   # GET /users/1.json
@@ -21,20 +32,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
   end
-  def admin
-  d = DateTime.now
-  d.strftime("%d/%m/%Y %H:%M")
-  d=d.to_s
-  z=d.split("T")[0].split("-")
-  puts "aaaaaaaaaaaaaaaaaaaa"
-  u=Users.all
-  puts u
-  us=[]
-  u.each do |usrs|
-	dt=usrs.created_at.split(" ")[0].split("-")
-	puts dt
-  end
-  end
+  
   # POST /users
   # POST /users.json
   def create
@@ -61,7 +59,7 @@ class UsersController < ApplicationController
 	session[:username] = params["user"]["username"]
 	puts "aaaaaaaaaaaaaaaaaaaaaa"
 	puts session[:username]
-        format.html { redirect_to new_tweet_url, notice: 'User was successfully created.' }
+        format.html { redirect_to users_url, notice: 'User was successfully created.' }
         #format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
