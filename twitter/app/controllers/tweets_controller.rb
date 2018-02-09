@@ -134,7 +134,8 @@ class TweetsController < ApplicationController
 	@uname = session[:username]
 	@twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
 	@usr=Tweet.all.where("username= ? ",@uname)[0]
+	@usr1 = Tweet.all.where("username= ? ",@uname)
 	@type=(User.find_by username: @uname)[:designation]
-	puts @type,"ssssssssssssssssssssssssssssss",@usr
+	puts @type,"ssssssssssssssssssssssssssssss",@usr,@uname
     end
 end
