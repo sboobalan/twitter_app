@@ -25,6 +25,35 @@ class TweetsController < ApplicationController
 
   end
 
+  def statistics
+	todate =  Date.today.to_s
+	@tweets = Tweet.where("created_at like '" +todate +"%' and status like 'active'")
+	puts  "aaaaaaaaaaaaaaaaaaaaaaa" ,@tweets
+	if(!(@tweets.nil?))
+		@today_active = @tweets.length
+	else
+		@today_active = 0
+	end
+	@tweets = Tweet.where("created_at like '" +todate +"%' and status like 'inactive'")
+	if(!(@tweets.nil?))
+	        @today_inactive = @tweets.length
+	else
+		@today_inactive = 0
+	end
+	@tweets = Tweet.where("status like 'active'")
+	if(!(@tweets.nil?))
+		@total_active = @tweets.length
+	else
+		@total_active = 0
+	end
+	@tweets = Tweet.where("status like 'inactive'")
+	if(!(@tweets.nil?))
+		@total_inactive = @tweets.length
+	else
+		@total_inactive = 0
+	end
+	
+  end
   def moderator
   end
   def show

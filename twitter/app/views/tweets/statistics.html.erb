@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tweets</h1>
+<p><%= link_to 'Logout', users_path%></p>
+<table>
+  <thead>
+    <tr>
+      <th colspan = "2">Today stat</th>
+      <th colspan = "2">Total stat</th>
+    </tr>
+  </thead>
+
+  <tbody>
+ 
+	<tr>
+	<td>Active Tweets</td>
+	<td>Inactive Tweets</td>
+	<td>Active Tweets</td>
+	<td>Inactive Tweets</td>
+	</tr>	
+	
+	<tr>
+	<td><%= @today_active %></td>
+	<td><%= @today_inactive %></td>
+	<td><%= @total_active %></td>
+	<td><%= @total_inactive %></td>
+	</tr>
+     
+    
+  </tbody>
+</table>
+
+<br>
+
+
