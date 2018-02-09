@@ -1,6 +1,10 @@
 <%= stylesheet_link_tag "indexn.css" %>
 
+<<<<<<< HEAD
 <%= link_to "Logout", users_path, class: 'rite' %><%= link_to @uname+"| ", tweet_indexn_path(@usr1),class: 'rite'  %><%= link_to 'Dashboard| ', new_tweet_path,class: 'rite'   %><% if @type .eql? "moderator"%> <%= link_to 'View Tweets|', mod_front_path,class: 'rite'%><%= link_to 'Update Tweets|', tweets_path,class: 'rite'%><% end %>
+=======
+<%= link_to "Logout", users_path, class: 'rite' %><%= link_to @uname+"| ", tweet_indexn_path(@tweet),class: 'rite'  %><%= link_to 'Dashboard| ', new_tweet_path,class: 'rite'   %><% if @type .eql? "moderator"%> <%= link_to 'View Tweets|', mod_front_path,class: 'rite'%><%= link_to 'Update Tweets|', tweets_path,class: 'rite'%><% end %>
+>>>>>>> d73ee82b7926715a94f088ded2ded93b0b1d9239
 
 <h1>Home</h1>
 <div id="nw">
