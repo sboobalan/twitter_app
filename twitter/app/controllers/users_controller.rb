@@ -36,6 +36,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+
     if( User.find_by username: params["user"]["username"])
 	respond_to do |format|
 	  format.html {redirect_to new_user_url, notice: 'Username already exists'}
@@ -92,6 +93,7 @@ class UsersController < ApplicationController
 
   def login
     if( User.find_by username: params[:uname])
+
     @newuser = User.find_by username: params[:uname]
     puts @newuser,"aaaaaaaaaaaaaaa"
 
@@ -125,6 +127,7 @@ class UsersController < ApplicationController
     end
     end
   end
+
 
   def check_user
 

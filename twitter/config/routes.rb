@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
 get "/mod_front" => "tweets#mod_front"
 
+
 get "/filter_tweets" => "tweets#filter_tweets"
 
 
