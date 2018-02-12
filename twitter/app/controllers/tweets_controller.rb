@@ -3,8 +3,7 @@ class TweetsController < ApplicationController
   before_action :twt, only: [:create, :new, :indexn,:index,:mod_front]
 
   def index
-    @tweets = Tweet.all
-    puts session[:username],"ddddddddddddddddddddd"
+    @tweets = Tweet.all.paginate(:page => params[:page], :per_page => 10)
   end
 
   def set_stat
@@ -17,14 +16,15 @@ class TweetsController < ApplicationController
 
   def indexn
      	puts params
-	
-	if !params[:tweet_id].nil?
-	puts params[:tweet_id],"aaaaaaaaaaaaaa"
-	user=Tweet.find(params[:tweet_id])
-	@tweets = Tweet.all.where("username= ? AND status='active'",user[:username]).order(created_at: :desc, updated_at: :desc)
+
+	if !session[:isnil].eql? "yes"
+		puts params[:tweet_id],"aaaaaaaaaaaaaa"
+		user=Tweet.find(params[:tweet_id])
 	else
-	@tweets=nil
+		user=User.find(params[:tweet_id])
+
 	end
+	@tweets = Tweet.all.where("username= ? AND status='active'",user[:username]).order(created_at: :desc, updated_at: :desc)
 	@uname = session[:username]
 
 	puts "aaaaaaaaaaaaaaaaaaaaaaa" +  @uname
@@ -58,7 +58,7 @@ class TweetsController < ApplicationController
 	else
 		@total_inactive = 0
 	end
-	
+
   end
   def moderator
   end
@@ -68,7 +68,7 @@ class TweetsController < ApplicationController
   # GET /tweets/new
   def new
     @tweet = Tweet.new
-    
+
 
     @twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
 
@@ -84,7 +84,7 @@ class TweetsController < ApplicationController
   def create
     @tweet = Tweet.new(tweet_params)
     @tweet.status="inactive"
-    
+
     @tweet.username=@uname
     @tweets = Tweet.all
     respond_to do |format|
@@ -123,7 +123,7 @@ class TweetsController < ApplicationController
   end
 
   def mod_front
-	@tweets = Tweet.all
+	@tweets = Tweet.all.paginate(:page => params[:page], :per_page => 10)
 	render :mod_front
   end
   private
@@ -139,8 +139,15 @@ class TweetsController < ApplicationController
     def twt
 	@uname = session[:username]
 	@twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
-	@usr=Tweet.all.where("username= ? ",@uname)[0][:id]
-	@usr1 = Tweet.all.where("username= ? ",@uname)
+	@usr=Tweet.all.where("username= ? ",@uname)[0]
+	uw=User.all.where("username= ? ",@uname)[0][:id]
+	if @usr.nil?
+		@usr=uw
+		session[:isnil]="yes"
+	else
+		@usr=@usr[:id]
+		session[:isnil]="no"
+	end
 	@type=(User.find_by username: @uname)[:designation]
 	puts @type,"ssssssssssssssssssssssssssssss",@usr,@uname
     end

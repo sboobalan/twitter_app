@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def type_change
-	@users = User.all
+	@users = User.all.where("designation != 'admin'").paginate(:page => params[:page], :per_page => 10)
   end
   def status_set
         @user = User.find(params[:user_id])
@@ -37,8 +37,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
 
-
-
     if( User.find_by username: params["user"]["username"])
 	respond_to do |format|
 	  format.html {redirect_to new_user_url, notice: 'Username already exists'}
@@ -53,7 +51,7 @@ class UsersController < ApplicationController
 	end
     else
     @user = User.new(user_params)
-
+    @user.designation="user"
     respond_to do |format|
       if @user.save
 	session[:username] = params["user"]["username"]
@@ -118,8 +116,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html {redirect_to users_url, notice: 'Invalid username'}
       end
-    end
-  end
+
 
   def check_user
 

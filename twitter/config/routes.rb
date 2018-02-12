@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
 get "/mod_front" => "tweets#mod_front"
 
 
@@ -10,14 +10,16 @@ resources :tweets do
   get "indexn"
 end
 get "/moderator" => 'tweets#moderator'
-  resources :users
+  resources :users do
+    get "/status_set" => 'users#status_set'
+  end
 
 
   #resources :users
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-   
-  get '/admin' => "users#admin"
+  get "/type_change" => 'users#type_change'
+  get "/stats" => "tweets#statistics"
   post 'users/login'
   get "/check_user" => "users#check_user"
   get "/checkmail_user" => "users#checkmail_user"
