@@ -6,7 +6,7 @@ get "/mod_front" => "tweets#mod_front"
 
 get "/filter_tweets" => "tweets#filter_tweets"
 
-
+get "/profile" => "users#profile"
 resources :tweets do
   get 'set_stat' => 'tweets#set_stat'
   get "indexn"

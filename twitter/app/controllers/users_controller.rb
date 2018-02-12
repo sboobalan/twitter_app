@@ -92,41 +92,41 @@ class UsersController < ApplicationController
   end
 
   def login
-    if( User.find_by username: params[:uname])
+	if( User.find_by username: params[:uname])
 
-    @newuser = User.find_by username: params[:uname]
-    puts @newuser,"aaaaaaaaaaaaaaa"
+		@newuser = User.find_by username: params[:uname]
+		puts @newuser,"aaaaaaaaaaaaaaa"
 
-        if(@newuser[:password] .eql? params[:password])
+		if(@newuser[:password] .eql? params[:password])
 
-	respond_to do |format|
-		if(@newuser[:designation]) .eql? "moderator"
-			session[:username] = params[:uname]
-		  	puts @newuser[:designation]
-		  	format.html { redirect_to new_tweet_url}
-    elsif(@newuser[:designation]) .eql? "admin"
-      session[:username] = params[:uname]
-		  	puts @newuser[:designation]
-		  	format.html { redirect_to type_change_url}
-    else
-	  	format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
-	  	session[:username] = params[:uname]
-          	#format.json { render :show, status: :created, location: @newuser }
+			respond_to do |format|
+				if(@newuser[:designation]) .eql? "moderator"
+					session[:username] = params[:uname]
+					puts @newuser[:designation]
+					format.html { redirect_to new_tweet_url}
+				elsif(@newuser[:designation]) .eql? "admin"
+					session[:username] = params[:uname]
+					puts @newuser[:designation]
+					format.html { redirect_to type_change_url}
+				else
+					format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
+					session[:username] = params[:uname]
+					#format.json { render :show, status: :created, location: @newuser }
+				end
+			end
+		else
+			respond_to do |format|
+				format.html {redirect_to users_url, notice: 'Invalid password'}
+			end
 		end
-             end
-	else
-	respond_to do |format|
-	format.html {redirect_to users_url, notice: 'Invalid password'}
-	end
-	end
-    #if(@newuser==null)
+	#if(@newuser==null)
 
-    else
-      respond_to do |format|
-      format.html {redirect_to users_url, notice: 'Invalid username'}
-    end
-    end
-  end
+	else
+		respond_to do |format|
+			format.html {redirect_to users_url, notice: 'Invalid username'}
+		end
+	end
+end
 
 
   def check_user
@@ -166,6 +166,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :username, :password, :email, :designation)
+      params.require(:user).permit(:name, :username, :password, :email, :designation,:dp)
     end
 end
