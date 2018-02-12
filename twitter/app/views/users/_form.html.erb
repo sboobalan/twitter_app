@@ -1,45 +1,45 @@
 
 
 <%= form_with(model: user, local: true, id: :form1) do |form| %>
-  
+
 
 
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :user_name, :required => true%>
+    <%= form.label :name ,'NAME' %>
+    <%= form.text_field :name, id: :user_name, :required => true, :placeholder => 'Name' %>
   </div>
 
   <div class="field">
-    <%= form.label :username %>
-    <%= form.text_field :username, id: :user_username, :required => true , :remote => true , onblur: "check()" , onfocus: "remove()"%>
+    <%= form.label :username,'USERNAME' %>
+    <%= form.text_field :username, id: :user_username, :required => true , :remote => true , onblur: "check()" , onfocus: "remove()", :placeholder => 'Username' %>
     <span id="status">
     </span>
   </div>
 
   <div class="field">
-    <%= form.label :password %>
-    <%= form.password_field :password, id: :user_password ,:required => true%>
+    <%= form.label :password ,"PASSWORD"%>
+    <%= form.password_field :password, id: :user_password ,:required => true, :placeholder => 'Password'%>
   </div>
 
   <div class="field">
-    <%= form.label :confirm_password %>
-    <%= form.password_field :confirm_password, id: :user_confirm_password,:required => true ,  onblur: "checkpwd()" %>
+    <%= form.label :confirm_password,'CONFIRM PASSWORD' %>
+    <%= form.password_field :confirm_password, id: :user_confirm_password,:required => true ,  onblur: "checkpwd()", :placeholder => 'Confirm Password' %>
     <span id="statuspwd">
     </span>
   </div>
 
   <div class="field">
-    <%= form.label :email %>
-    <%= form.email_field :email, id: :user_email,:required => true , onblur: "checkmail()" , :remote => true %>
+    <%= form.label :email,"EMAIL ID" %>
+    <%= form.email_field :email, id: :user_email,:required => true , onblur: "checkmail()" , :remote => true, :placeholder => 'Email Id' %>
     <span id="statusmail">
     </span>
   </div>
 
-  
+
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Register' %>
   </div>
 <% end %>
 
@@ -85,7 +85,7 @@ function checkpwd(){
 		$('#statuspwd').html("");
 	else
 		$('#statuspwd').html("Incorrect password");
-        
+
 	/*$.ajax({
 	url: "/check_user",
 	type: 'GET',
@@ -103,7 +103,3 @@ function remove(){
 }
 
 </script>
-
-
-
-
